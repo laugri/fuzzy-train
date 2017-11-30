@@ -1,6 +1,75 @@
+$left-indent: 24px;
+$content-top-indent: 24px;
+
+$border-color: #e6e6e6;
+$primary-color: #1c688e;
+$primary-color-light: #2897c5;
+
 .App {
   width: 100%;
   min-height: 100vh;
   background-image: url('assets/background.png');
   background-repeat: repeat;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Container {
+  width: 820px;
+  background: white;
+  margin: 56px 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.SearchBar {
+  padding: 0 24px;
+  height: 80px;
+  background: linear-gradient(3deg, $primary-color, $primary-color-light);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &__Input {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+  }
+}
+
+.Content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100%;
+  height: 500px;
+}
+
+.FilterBar {
+  border-right: solid 1px $border-color;
+  padding: $content-top-indent $left-indent;
+  width: 200px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.SectionTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.Results {
+  padding: $content-top-indent $left-indent;
+  box-sizing: border-box;
 }
