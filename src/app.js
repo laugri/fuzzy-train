@@ -7,7 +7,7 @@ type Props = {};
 
 class App extends Component<Props> {
   render() {
-    return <div>Hello</div>;
+    return <div className="App">Hello</div>;
   }
 }
 
