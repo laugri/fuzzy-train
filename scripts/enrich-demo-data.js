@@ -1,8 +1,14 @@
 const fs = require('fs');
 const csv = require('csvtojson');
 
-const restaurantsListFilePath = process.argv[2];
-const infoFilePath = process.argv[3];
+const args = process.argv.slice(2);
+if (args.length !== 2) {
+  console.log('You should provide two file paths');
+  process.exit(1);
+}
+
+const restaurantsListFilePath = args[0];
+const infoFilePath = args[1];
 
 console.log(' - Parsing restaurant list');
 
