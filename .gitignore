@@ -68,6 +68,9 @@ typings/
 # scss
 src/**/*.css
 
+# algolia demo data
+/algolia-resources
+
 # misc
 .DS_Store
 .env.local
