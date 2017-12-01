@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './app.css';
 import algoliasearch from 'algoliasearch';
 import algoliasearchHelper from 'algoliasearch-helper';
-import type { Hit, Response } from 'types';
+import type { Hit, Response, FacetValue } from 'types';
 
 const applicationID = 'AA6Z3N1QN6';
 const apiKey = '606fb361d72620af82ded9d61fd5ce9b';
@@ -33,7 +33,12 @@ class App extends Component<Props, State> {
     });
   }
 
-  handleChange = e => {
+  handleFilterClick = e => {
+    const value = e.target.value;
+    helper.toggleFacetRefinement('food_type', value).search();
+  };
+
+  handleInputChange = e => {
     const value = e.target.value;
     this.setState({ inputValue: value });
     helper.setQuery(value).search();
@@ -42,20 +47,27 @@ class App extends Component<Props, State> {
   renderCuisineFilter() {
     const { searchResults } = this.state;
     if (searchResults) {
-      const facets = searchResults.getFacetValues('food_type');
-      console.log(facets);
+      const facetValues = searchResults.getFacetValues('food_type');
       return (
         <section>
           <h2 className="SectionTitle">Cuisine/Food type</h2>
-          <ul>
-            {facets.map((facet: Facet) => {
+          <div>
+            {facetValues.map((facetValue: FacetValue) => {
               return (
-                <li key={facet.name}>
-                  {facet.name} ({facet.count})
-                </li>
+                <div key={facetValue.name}>
+                  <label>
+                    {facetValue.name} ({facetValue.count})
+                    <input
+                      type="checkbox"
+                      onChange={this.handleFilterClick}
+                      value={facetValue.name}
+                      checked={facetValue.isRefined}
+                    />
+                  </label>
+                </div>
               );
             })}
-          </ul>
+          </div>
         </section>
       );
     } else {
@@ -110,7 +122,7 @@ class App extends Component<Props, State> {
               autoComplete="off"
               placeholder="Search for Restaurants by Name, Cuisine, Location"
               value={inputValue}
-              onChange={this.handleChange}
+              onChange={this.handleInputChange}
             />
           </header>
           <div className="Content">

@@ -66,7 +66,7 @@ export type Response = {
   query: string,
 };
 
-export type Facet = {
+export type FacetValue = {
   count: number,
   isExcluded: boolean,
   isRefined: boolean,
