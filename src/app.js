@@ -79,11 +79,11 @@ class App extends Component<Props, State> {
 
   renderHit(hit: Hit) {
     return (
-      <li key={hit.objectID}>
-        <h3>
+      <li className="Restaurant" key={hit.objectID}>
+        <h3 className="Restaurant__Name">
           {hit.name} ({hit.stars_count} - {hit.reviews_count} reviews)
         </h3>
-        <p>
+        <p className="Restaurant__Details">
           {hit.food_type} - {hit.neighborhood}
         </p>
       </li>
