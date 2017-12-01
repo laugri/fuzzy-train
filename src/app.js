@@ -47,7 +47,9 @@ class App extends Component<Props, State> {
   renderCuisineFilter() {
     const { searchResults } = this.state;
     if (searchResults) {
-      const facetValues = searchResults.getFacetValues('food_type');
+      const facetValues = searchResults.getFacetValues('food_type', {
+        sortBy: ['count:desc', 'name:asc'],
+      });
       return (
         <section>
           <h2 className="SectionTitle">Cuisine/Food type</h2>
@@ -56,13 +58,13 @@ class App extends Component<Props, State> {
               return (
                 <div key={facetValue.name}>
                   <label>
-                    {facetValue.name} ({facetValue.count})
                     <input
                       type="checkbox"
                       onChange={this.handleFilterClick}
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
+                    {facetValue.name} ({facetValue.count})
                   </label>
                 </div>
               );
