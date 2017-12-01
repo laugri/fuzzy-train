@@ -53,13 +53,13 @@ $primary-color-light: #2897c5;
   justify-content: flex-start;
   height: 100%;
   height: 500px;
+  overflow-y: auto;
 }
 
 .FilterBar {
-  border-right: solid 1px $border-color;
   padding: $content-top-indent $left-indent;
   width: 200px;
-  height: 100%;
+  min-height: 100%;
   box-sizing: border-box;
 }
 
@@ -70,6 +70,8 @@ $primary-color-light: #2897c5;
 }
 
 .Results {
+  border-left: solid 1px $border-color;
   padding: $content-top-indent $left-indent;
   box-sizing: border-box;
+  min-height: 100%;
 }
