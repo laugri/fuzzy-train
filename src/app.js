@@ -33,12 +33,12 @@ class App extends Component<Props, State> {
     });
   }
 
-  handleFilterClick = e => {
+  handleFilterClick = (e: any) => {
     const value = e.target.value;
     helper.toggleFacetRefinement('food_type', value).search();
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e: any) => {
     const value = e.target.value;
     this.setState({ inputValue: value });
     helper.setQuery(value).search();
