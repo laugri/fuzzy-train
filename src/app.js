@@ -2,36 +2,65 @@
 
 import React, { Component } from 'react';
 import './app.css';
-
 import algoliasearch from 'algoliasearch';
-// import algoliasearchHelper from 'algoliasearch-helper';
+import type { Hit, Response } from 'types';
 const client = algoliasearch('AA6Z3N1QN6', '606fb361d72620af82ded9d61fd5ce9b');
 const index = client.initIndex('restaurants');
-// const helper = algoliasearchHelper(client, 'restaurants', { hitsPerPage: 5 });
 
 type Props = {};
 type State = {
   inputValue: string,
-  hits: Array<Object>,
+  searchResults: ?Response,
 };
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { inputValue: '', hits: [] };
+    this.state = { inputValue: '', searchResults: undefined };
   }
 
   handleChange = e => {
     const value = e.target.value;
     this.setState({ inputValue: value });
-    index.search(value).then(results => {
-      this.setState({ hits: results.hits });
-      console.log(results.hits);
-    });
+    index
+      .search({ query: value, hitsPerPage: 10 })
+      .then((results: Response) => {
+        this.setState({ searchResults: results });
+      });
   };
 
+  renderHit(hit: Hit) {
+    return (
+      <li key={hit.objectID}>
+        {hit.name} - {hit.area}
+      </li>
+    );
+  }
+
+  renderResults() {
+    const { searchResults } = this.state;
+    if (searchResults) {
+      return (
+        <section className="Results">
+          <h2 className="SectionTitle">
+            {`${searchResults.nbHits} results found in ${
+              searchResults.processingTimeMS
+            }ms`}
+          </h2>
+          <ul>{searchResults.hits.map(hit => this.renderHit(hit))}</ul>
+        </section>
+      );
+    } else {
+      return (
+        <section className="Results">
+          <h2 className="SectionTitle">No results</h2>
+        </section>
+      );
+    }
+  }
+
   render() {
-    const { inputValue, hits } = this.state;
+    const { inputValue } = this.state;
     return (
       <div className="App">
         <div className="Container">
@@ -57,10 +86,7 @@ class App extends Component<Props, State> {
                 <h2 className="SectionTitle">Payment Options</h2>
               </section>
             </section>
-            <section className="Results">
-              <h2 className="SectionTitle">34 Results found</h2>
-              <ul>{hits.map(hit => <li>{hit.name}</li>)}</ul>
-            </section>
+            {this.renderResults()}
           </div>
         </div>
       </div>
