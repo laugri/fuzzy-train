@@ -82,6 +82,10 @@ $content-top-indent: 24px;
       background-color: $primary-color-light;
       border-radius: 4px;
       color: #ffffff;
+
+      .FilterBar__ValueCount {
+        color: #ffffff;
+      }
     }
   }
 
