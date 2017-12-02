@@ -79,14 +79,23 @@ class App extends Component<Props, State> {
 
   renderHit(hit: Hit) {
     return (
-      <li className="Restaurant" key={hit.objectID}>
-        <h3 className="Restaurant__Name">
-          {hit.name} ({hit.stars_count} - {hit.reviews_count} reviews)
-        </h3>
-        <p className="Restaurant__Details">
-          {hit.food_type} - {hit.neighborhood}
-        </p>
-      </li>
+      <article className="Restaurant" key={hit.objectID}>
+        <img src={hit.image_url} alt={hit.name} className="Restaurant__Image" />
+        <div className="Restaurant__Info">
+          <h2 className="Restaurant__Name">{hit.name}</h2>
+          <p className="Restaurant__Rating">
+            <span className="Restaurant__Rating__StarCount">
+              {hit.stars_count}
+            </span>{' '}
+            <span className="Restaurant__Rating__ReviewCount">
+              ({hit.reviews_count} reviews)
+            </span>
+          </p>
+          <p className="Restaurant__Details">
+            {hit.food_type} | {hit.neighborhood}
+          </p>
+        </div>
+      </article>
     );
   }
 
@@ -95,12 +104,14 @@ class App extends Component<Props, State> {
     if (searchResults) {
       return (
         <section className="Results">
-          <h2 className="SectionTitle">
+          <h1 className="SectionTitle">
             {`${searchResults.nbHits} results found in ${
               searchResults.processingTimeMS
             } ms`}
-          </h2>
-          <ul>{searchResults.hits.map(hit => this.renderHit(hit))}</ul>
+          </h1>
+          <div className="Results__List">
+            {searchResults.hits.map(hit => this.renderHit(hit))}
+          </div>
         </section>
       );
     } else {
