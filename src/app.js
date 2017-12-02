@@ -105,9 +105,11 @@ class App extends Component<Props, State> {
       return (
         <section className="Results">
           <h1 className="SectionTitle">
-            {`${searchResults.nbHits} results found in ${
-              searchResults.processingTimeMS
-            } ms`}
+            {searchResults.nbHits} results found
+            <span className="Results__ProcessingTime">
+              {' '}
+              in {searchResults.processingTimeMS / 1000} seconds
+            </span>
           </h1>
           <div className="Results__List">
             {searchResults.hits.map(hit => this.renderHit(hit))}

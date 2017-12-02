@@ -72,6 +72,11 @@ $content-top-indent: 24px;
   padding: $content-top-indent 36px;
   box-sizing: border-box;
   min-height: 100%;
+
+  &__ProcessingTime {
+    font-size: 12px;
+    font-weight: 400;
+  }
 }
 
 .Restaurant {
