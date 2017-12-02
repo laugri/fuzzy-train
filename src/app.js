@@ -31,6 +31,18 @@ class App extends Component<Props, State> {
     helper.on('result', (content: Response) => {
       this.setState({ searchResults: content });
     });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log(latitude, longitude);
+        },
+        error => {
+          console.warn(error);
+        }
+      );
+    }
   }
 
   handleFilterClick = (e: any) => {
