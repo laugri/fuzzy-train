@@ -31,12 +31,15 @@ class App extends Component<Props, State> {
     helper.on('result', (content: Response) => {
       this.setState({ searchResults: content });
     });
+  }
+
+  componentDidMount() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          console.log(latitude, longitude);
+          helper.setQueryParameter('aroundLatLng', `${latitude}, ${longitude}`);
         },
         error => {
           console.warn(error);
