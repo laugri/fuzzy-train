@@ -53,10 +53,16 @@ class App extends Component<Props, State> {
       return (
         <section>
           <h2 className="SectionTitle">Cuisine/Food type</h2>
-          <div>
+          <div className="FilterBar__FacetValues">
             {facetValues.map((facetValue: FacetValue) => {
+              const isRefinedModifier = facetValue.isRefined
+                ? 'FilterBar__Value--selected'
+                : '';
               return (
-                <div key={facetValue.name}>
+                <div
+                  key={facetValue.name}
+                  className={`FilterBar__Value ${isRefinedModifier}`}
+                >
                   <label>
                     <input
                       type="checkbox"
@@ -64,7 +70,12 @@ class App extends Component<Props, State> {
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
-                    {facetValue.name} ({facetValue.count})
+                    <span className="FilterBar__ValueName">
+                      {facetValue.name}
+                    </span>
+                    <span className="FilterBar__ValueCount">
+                      {facetValue.count}
+                    </span>
                   </label>
                 </div>
               );

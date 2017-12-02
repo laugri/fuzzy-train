@@ -59,6 +59,39 @@ $content-top-indent: 24px;
   width: 200px;
   min-height: 100%;
   box-sizing: border-box;
+
+  &__FacetValues {
+    margin: 16px 0;
+  }
+
+  &__Value {
+    margin: 2px 0;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0 8px;
+
+    label {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    input[type='checkbox'] {
+      display: none;
+    }
+
+    &:hover,
+    &--selected {
+      background-color: $primary-color-light;
+      border-radius: 4px;
+      color: #ffffff;
+    }
+  }
+
+  &__ValueCount {
+    color: $text-color-secondary;
+  }
 }
 
 .SectionTitle {
