@@ -134,6 +134,7 @@ class App extends Component<Props, State> {
             <input
               className="SearchBar__Input"
               type="text"
+              autoFocus
               autoComplete="off"
               placeholder="Search for Restaurants by Name, Cuisine, Location"
               value={inputValue}
