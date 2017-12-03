@@ -48,12 +48,19 @@ class App extends Component<Props, State> {
     }
   }
 
+  isRatingFilterActive(value: numer) {
+    return helper.getNumericRefinement('stars_count', '>=')
+      ? helper.getNumericRefinement('stars_count', '>=').indexOf(value) >= 0
+      : false;
+  }
+
   handleRatingFilterClick = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
-    helper
-      .removeNumericRefinement('stars_count')
-      .addNumericRefinement('stars_count', '>=', value)
-      .search();
+    helper.removeNumericRefinement('stars_count');
+    if (!this.isRatingFilterActive(value)) {
+      helper.addNumericRefinement('stars_count', '>=', value);
+    }
+    helper.search();
   };
 
   handleFoodTypeFacetClick = (e: SyntheticInputEvent<>) => {
@@ -68,9 +75,7 @@ class App extends Component<Props, State> {
   };
 
   renderRatingValueCheckbox(value: number) {
-    const checked = helper.getNumericRefinement('stars_count', '>=')
-      ? helper.getNumericRefinement('stars_count', '>=').indexOf(value) >= 0
-      : false;
+    const checked = this.isRatingFilterActive(value);
     return (
       <div>
         <label>
