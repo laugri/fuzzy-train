@@ -2,9 +2,12 @@
 
 import React, { Component } from 'react';
 import './app.css';
+import FilterBlock from 'components/filterblock';
+import RatingFilterBlock from 'components/ratingfilterblock';
+import Hit from 'components/hit';
 import algoliasearch from 'algoliasearch';
 import algoliasearchHelper from 'algoliasearch-helper';
-import type { Hit, Response, FacetValue } from 'types';
+import type { Response } from 'types';
 
 const applicationID = 'AA6Z3N1QN6';
 const apiKey = '606fb361d72620af82ded9d61fd5ce9b';
@@ -16,7 +19,7 @@ const config = {
   facets: ['payment_options', 'dining_style', 'city'],
   hitsPerPage: baseHitsPerPage,
 };
-const helper = algoliasearchHelper(client, indexName, config);
+export const helper = algoliasearchHelper(client, indexName, config);
 
 type Props = {};
 type State = {
@@ -68,154 +71,11 @@ class App extends Component<Props, State> {
     helper.setQueryParameter('hitsPerPage', newHitsPerPage).search();
   };
 
-  handleRatingFilterClick = (e: SyntheticInputEvent<>) => {
-    const value = parseInt(e.target.value, 10);
-    if (this.isRatingFilterActive(value)) {
-      helper.removeNumericRefinement('stars_count');
-    } else {
-      helper.removeNumericRefinement('stars_count');
-      helper.addNumericRefinement('stars_count', '>=', value);
-    }
-    helper.search();
-  };
-
-  handleFacetClick = (
-    e: SyntheticInputEvent<>,
-    facet: string,
-    isRefined: boolean,
-    isDisjunctive: boolean = false
-  ) => {
-    const value = e.target.value;
-    if (isDisjunctive) {
-      if (isRefined) {
-        helper.removeDisjunctiveFacetRefinement('food_type', value).search();
-      } else {
-        helper.addDisjunctiveFacetRefinement('food_type', value).search();
-      }
-    } else {
-      helper.toggleFacetRefinement(facet, value).search();
-    }
-  };
-
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
     this.setState({ inputValue: value });
     helper.setQuery(value).search();
   };
-
-  renderRatingValueCheckbox(value: number) {
-    const checked = this.isRatingFilterActive(value);
-    return (
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value={value}
-            onChange={this.handleRatingFilterClick}
-            checked={checked}
-          />
-          {value}+
-        </label>
-      </div>
-    );
-  }
-
-  renderRatingFilters() {
-    const { searchResults } = this.state;
-    if (searchResults) {
-      return (
-        <section className="FilterGroup">
-          <h2 className="SectionTitle">Rating</h2>
-          <div>
-            {this.renderRatingValueCheckbox(4)}
-            {this.renderRatingValueCheckbox(3)}
-            {this.renderRatingValueCheckbox(2)}
-            {this.renderRatingValueCheckbox(1)}
-          </div>
-        </section>
-      );
-    } else {
-      return null;
-    }
-  }
-
-  renderFilters(
-    facet: string,
-    groupName: string,
-    isDisjunctive: boolean = false
-  ) {
-    const { searchResults } = this.state;
-    if (searchResults) {
-      const facetValues = searchResults.getFacetValues(facet, {
-        sortBy: ['count:desc', 'name:asc'],
-      });
-      return (
-        <section className="FilterGroup">
-          <h2 className="SectionTitle">{groupName}</h2>
-          <div className="FacetValues">
-            {facetValues.map((facetValue: FacetValue) => {
-              const isRefined = facetValue.isRefined;
-              const isRefinedModifier = isRefined
-                ? 'FacetValues__Value--selected'
-                : '';
-              return (
-                <div
-                  key={facetValue.name}
-                  className={`FacetValues__Value ${isRefinedModifier}`}
-                >
-                  <label>
-                    <input
-                      type="checkbox"
-                      onChange={(e: SyntheticInputEvent<>) =>
-                        this.handleFacetClick(
-                          e,
-                          facet,
-                          isRefined,
-                          isDisjunctive
-                        )
-                      }
-                      value={facetValue.name}
-                      checked={isRefined}
-                    />
-                    <span className="FacetValues__ValueName">
-                      {facetValue.name}
-                    </span>
-                    <span className="FacetValues__ValueCount">
-                      {facetValue.count}
-                    </span>
-                  </label>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      );
-    } else {
-      return null;
-    }
-  }
-
-  renderHit(hit: Hit) {
-    return (
-      <article className="Restaurant" key={hit.objectID}>
-        <img src={hit.image_url} alt={hit.name} className="Restaurant__Image" />
-        <div className="Restaurant__Info">
-          <h2 className="Restaurant__Name">{hit.name}</h2>
-          <p className="Restaurant__Rating">
-            <span className="Restaurant__Rating__StarCount">
-              {hit.stars_count}
-            </span>{' '}
-            <span className="Restaurant__Rating__ReviewCount">
-              ({hit.reviews_count} reviews)
-            </span>
-          </p>
-          <p className="Restaurant__Details">
-            {hit.food_type} | {hit.neighborhood}
-          </p>
-        </div>
-      </article>
-    );
-  }
 
   renderResults() {
     const { searchResults, hitsPerPage } = this.state;
@@ -231,7 +91,9 @@ class App extends Component<Props, State> {
             </span>
           </h1>
           <div className="Results__List">
-            {searchResults.hits.map(hit => this.renderHit(hit))}
+            {searchResults.hits.map(hit => (
+              <Hit hit={hit} key={hit.objectID} />
+            ))}
           </div>
           <div className="Results__Footer">
             {showButton && (
@@ -255,7 +117,7 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { inputValue } = this.state;
+    const { inputValue, searchResults } = this.state;
     return (
       <div className="App">
         <div className="Card">
@@ -274,11 +136,38 @@ class App extends Component<Props, State> {
           <div className="Container">
             <div className="Content">
               <section className="FilterBar">
-                {this.renderFilters('food_type', 'Cuisine/Food Type', true)}
-                {this.renderRatingFilters()}
-                {this.renderFilters('payment_options', 'Payment Options')}
-                {this.renderFilters('dining_style', 'Dining Style')}
-                {this.renderFilters('city', 'City')}
+                <FilterBlock
+                  searchResults={searchResults}
+                  algoliaSearchHelper={helper}
+                  facet="food_type"
+                  blockName="Cuisine/Food Type"
+                  isDisjunctive={true}
+                />
+                <RatingFilterBlock
+                  searchResults={searchResults}
+                  algoliaSearchHelper={helper}
+                />
+                <FilterBlock
+                  searchResults={searchResults}
+                  algoliaSearchHelper={helper}
+                  facet="payment_options"
+                  blockName="Payment Options"
+                  isDisjunctive={true}
+                />
+                <FilterBlock
+                  searchResults={searchResults}
+                  algoliaSearchHelper={helper}
+                  facet="dining_style"
+                  blockName="Dining Style"
+                  isDisjunctive={true}
+                />
+                <FilterBlock
+                  searchResults={searchResults}
+                  algoliaSearchHelper={helper}
+                  facet="city"
+                  blockName="City"
+                  isDisjunctive={true}
+                />
               </section>
               {this.renderResults()}
             </div>
