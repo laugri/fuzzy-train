@@ -12,7 +12,7 @@ const indexName = 'restaurants';
 
 const client = algoliasearch(applicationID, apiKey);
 const config = {
-  facets: ['food_type'],
+  facets: ['food_type', 'payment_options'],
   hitsPerPage: 10,
 };
 const helper = algoliasearchHelper(client, indexName, config);
@@ -55,9 +55,11 @@ class App extends Component<Props, State> {
   }
 
   handleRatingFilterClick = (e: SyntheticInputEvent<>) => {
-    const value = e.target.value;
-    helper.removeNumericRefinement('stars_count');
-    if (!this.isRatingFilterActive(value)) {
+    const value = parseInt(e.target.value, 10);
+    if (this.isRatingFilterActive(value)) {
+      helper.removeNumericRefinement('stars_count');
+    } else {
+      helper.removeNumericRefinement('stars_count');
       helper.addNumericRefinement('stars_count', '>=', value);
     }
     helper.search();
