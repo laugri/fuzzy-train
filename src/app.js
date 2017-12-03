@@ -230,7 +230,14 @@ class App extends Component<Props, State> {
           <div className="Results__List">
             {searchResults.hits.map(hit => this.renderHit(hit))}
           </div>
-          <button onClick={this.handleShowMoreButtonClick}>Show more</button>
+          <div className="Results__Footer">
+            <button
+              onClick={this.handleShowMoreButtonClick}
+              className="ShowMoreButton"
+            >
+              Show more
+            </button>
+          </div>
         </section>
       );
     } else {

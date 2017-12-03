@@ -113,6 +113,14 @@ $content-top-indent: 24px;
     font-size: 12px;
     font-weight: 400;
   }
+
+  &__Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+  }
 }
 
 .Restaurant {
@@ -173,4 +181,20 @@ $content-top-indent: 24px;
   margin: 0 0 16px;
   font-size: 14px;
   font-weight: 600;
+}
+
+.ShowMoreButton {
+  height: 40px;
+  background: none;
+  border: solid 1px $border-color;
+  padding: 0 16px;
+  font-weight: 400;
+  min-width: 180px;
+  cursor: pointer;
+  color: $text-color-button;
+
+  &:hover {
+    border: solid 1px $text-color-primary;
+    color: $text-color-primary;
+  }
 }

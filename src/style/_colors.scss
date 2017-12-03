@@ -1,8 +1,16 @@
-$background-color: #e6e6e6;
-$border-color: #e6e6e6;
+$grey-0: #ffffff;
+$grey-1: #f5f5f5;
+$grey-2: #e6e6e6;
+$grey-3: #a9a9a9;
+$grey-4: #888888;
+$grey-5: #333333;
+
+$background-color: $grey-2;
+$border-color: $grey-2;
 $primary-color-light: #2897c5;
 $primary-color: #1c688e;
 $yellow: #ffab66;
-$text-color-primary: #333333;
-$text-color-secondary: #a9a9a9;
-$hover-highlight-color: #f5f5f5;
+$text-color-primary: $grey-5;
+$text-color-secondary: $grey-3;
+$text-color-button: $grey-4;
+$hover-highlight-color: $grey-1;
