@@ -2,6 +2,7 @@
 
 $left-indent: 24px;
 $content-top-indent: 24px;
+$mobile-breakpoint: 830px;
 
 .App {
   width: 100%;
@@ -22,6 +23,11 @@ $content-top-indent: 24px;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.2);
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 .SearchBar {
@@ -47,6 +53,9 @@ $content-top-indent: 24px;
 .Container {
   height: 500px;
   overflow-y: auto;
+  @media screen and (max-width: $mobile-breakpoint) {
+    height: auto;
+  }
 }
 
 .Content {
@@ -61,6 +70,10 @@ $content-top-indent: 24px;
   min-height: 100%;
   border-right: solid 1px $border-color;
   box-sizing: border-box;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    display: none;
+  }
 }
 
 .Results {

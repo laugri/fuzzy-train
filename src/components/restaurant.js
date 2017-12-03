@@ -25,7 +25,7 @@ class Restaurant extends Component<Props> {
             </span>
           </p>
           <p className="Restaurant__Details">
-            {hit.food_type} | {hit.neighborhood}
+            {hit.food_type} | {hit.neighborhood}, {hit.city}
           </p>
         </div>
       </article>

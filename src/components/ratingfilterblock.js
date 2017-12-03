@@ -9,7 +9,7 @@ type Props = {
   algoliaSearchHelper: helper,
 };
 
-class RatingFilterBlock extends Component<Props, State> {
+class RatingFilterBlock extends Component<Props> {
   isRatingFilterActive(value: number) {
     const { algoliaSearchHelper } = this.props;
     return algoliaSearchHelper.getNumericRefinement('stars_count', '>=')
