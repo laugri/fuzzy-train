@@ -48,16 +48,43 @@ class App extends Component<Props, State> {
     }
   }
 
-  handleFilterClick = (e: any) => {
+  handleRatingFilterClick = (e: any) => {
+    const value = e.target.value;
+    helper
+      .removeNumericRefinement('stars_count')
+      .addNumericRefinement('stars_count', '>=', value)
+      .search();
+  };
+
+  handleFoodTypeFacetClick = (e: any) => {
     const value = e.target.value;
     helper.toggleFacetRefinement('food_type', value).search();
   };
 
-  handleInputChange = (e: any) => {
+  handleSearchInputChange = (e: any) => {
     const value = e.target.value;
     this.setState({ inputValue: value });
     helper.setQuery(value).search();
   };
+
+  renderRatingValueCheckbox(value) {
+    const checked = helper.getNumericRefinement('stars_count', '>=')
+      ? helper.getNumericRefinement('stars_count', '>=').indexOf(value) >= 0
+      : false;
+    return (
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value={value}
+            onChange={this.handleRatingFilterClick}
+            checked={checked}
+          />
+          {value}+
+        </label>
+      </div>
+    );
+  }
 
   renderRatingFilters() {
     const { searchResults } = this.state;
@@ -65,7 +92,12 @@ class App extends Component<Props, State> {
       return (
         <section className="FilterGroup">
           <h2 className="SectionTitle">Rating</h2>
-          <div />
+          <div>
+            {this.renderRatingValueCheckbox(4)}
+            {this.renderRatingValueCheckbox(3)}
+            {this.renderRatingValueCheckbox(2)}
+            {this.renderRatingValueCheckbox(1)}
+          </div>
         </section>
       );
     } else {
@@ -95,7 +127,7 @@ class App extends Component<Props, State> {
                   <label>
                     <input
                       type="checkbox"
-                      onChange={this.handleFilterClick}
+                      onChange={this.handleFoodTypeFacetClick}
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
@@ -178,7 +210,7 @@ class App extends Component<Props, State> {
               autoComplete="off"
               placeholder="Search for Restaurants by Name, Cuisine, Location"
               value={inputValue}
-              onChange={this.handleInputChange}
+              onChange={this.handleSearchInputChange}
             />
           </header>
           <div className="Content">
