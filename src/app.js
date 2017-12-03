@@ -70,6 +70,11 @@ class App extends Component<Props, State> {
     helper.toggleFacetRefinement('food_type', value).search();
   };
 
+  handlePaymentOptionsFacetClick = (e: SyntheticInputEvent<>) => {
+    const value = e.target.value;
+    helper.toggleFacetRefinement('payment_options', value).search();
+  };
+
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
     this.setState({ inputValue: value });
@@ -112,15 +117,19 @@ class App extends Component<Props, State> {
     }
   }
 
-  renderCuisineFilters() {
+  renderFilters(
+    facet: string,
+    groupName: string,
+    handleChangeFunction: Function
+  ) {
     const { searchResults } = this.state;
     if (searchResults) {
-      const facetValues = searchResults.getFacetValues('food_type', {
+      const facetValues = searchResults.getFacetValues(facet, {
         sortBy: ['count:desc', 'name:asc'],
       });
       return (
         <section className="FilterGroup">
-          <h2 className="SectionTitle">Cuisine/Food type</h2>
+          <h2 className="SectionTitle">{groupName}</h2>
           <div className="FacetValues">
             {facetValues.map((facetValue: FacetValue) => {
               const isRefinedModifier = facetValue.isRefined
@@ -134,7 +143,7 @@ class App extends Component<Props, State> {
                   <label>
                     <input
                       type="checkbox"
-                      onChange={this.handleFoodTypeFacetClick}
+                      onChange={handleChangeFunction}
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
@@ -154,6 +163,22 @@ class App extends Component<Props, State> {
     } else {
       return null;
     }
+  }
+
+  renderCuisineFilters() {
+    return this.renderFilters(
+      'food_type',
+      'Cuisine/Food Type',
+      this.handleFoodTypeFacetClick
+    );
+  }
+
+  renderPaymentOptionsFilters() {
+    return this.renderFilters(
+      'payment_options',
+      'Payment Options',
+      this.handlePaymentOptionsFacetClick
+    );
   }
 
   renderHit(hit: Hit) {
@@ -225,6 +250,7 @@ class App extends Component<Props, State> {
             <section className="FilterBar">
               {this.renderCuisineFilters()}
               {this.renderRatingFilters()}
+              {this.renderPaymentOptionsFilters()}
             </section>
             {this.renderResults()}
           </div>
