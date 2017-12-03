@@ -9,11 +9,11 @@ import type { Hit, Response, FacetValue } from 'types';
 const applicationID = 'AA6Z3N1QN6';
 const apiKey = '606fb361d72620af82ded9d61fd5ce9b';
 const indexName = 'restaurants';
-
+const baseHitsPerPage = 5;
 const client = algoliasearch(applicationID, apiKey);
 const config = {
   facets: ['food_type', 'payment_options'],
-  hitsPerPage: 10,
+  hitsPerPage: baseHitsPerPage,
 };
 const helper = algoliasearchHelper(client, indexName, config);
 
@@ -21,12 +21,17 @@ type Props = {};
 type State = {
   inputValue: string,
   searchResults: ?Response,
+  hitsPerPage: number,
 };
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { inputValue: '', searchResults: undefined };
+    this.state = {
+      inputValue: '',
+      searchResults: undefined,
+      hitsPerPage: baseHitsPerPage,
+    };
 
     helper.on('result', (content: Response) => {
       this.setState({ searchResults: content });
@@ -48,11 +53,18 @@ class App extends Component<Props, State> {
     }
   }
 
-  isRatingFilterActive(value: numer) {
+  isRatingFilterActive(value: number) {
     return helper.getNumericRefinement('stars_count', '>=')
       ? helper.getNumericRefinement('stars_count', '>=').indexOf(value) >= 0
       : false;
   }
+
+  handleShowMoreButtonClick = (e: SyntheticEvent<>) => {
+    const { hitsPerPage } = this.state;
+    const newHitsPerPage = hitsPerPage + baseHitsPerPage;
+    this.setState({ hitsPerPage: newHitsPerPage });
+    helper.setQueryParameter('hitsPerPage', newHitsPerPage).search();
+  };
 
   handleRatingFilterClick = (e: SyntheticInputEvent<>) => {
     const value = parseInt(e.target.value, 10);
@@ -218,6 +230,7 @@ class App extends Component<Props, State> {
           <div className="Results__List">
             {searchResults.hits.map(hit => this.renderHit(hit))}
           </div>
+          <button onClick={this.handleShowMoreButtonClick}>Show more</button>
         </section>
       );
     } else {
