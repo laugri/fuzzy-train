@@ -48,7 +48,7 @@ class App extends Component<Props, State> {
     }
   }
 
-  handleRatingFilterClick = (e: any) => {
+  handleRatingFilterClick = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
     helper
       .removeNumericRefinement('stars_count')
@@ -56,18 +56,18 @@ class App extends Component<Props, State> {
       .search();
   };
 
-  handleFoodTypeFacetClick = (e: any) => {
+  handleFoodTypeFacetClick = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
     helper.toggleFacetRefinement('food_type', value).search();
   };
 
-  handleSearchInputChange = (e: any) => {
+  handleSearchInputChange = (e: SyntheticInputEvent<>) => {
     const value = e.target.value;
     this.setState({ inputValue: value });
     helper.setQuery(value).search();
   };
 
-  renderRatingValueCheckbox(value) {
+  renderRatingValueCheckbox(value: number) {
     const checked = helper.getNumericRefinement('stars_count', '>=')
       ? helper.getNumericRefinement('stars_count', '>=').indexOf(value) >= 0
       : false;
