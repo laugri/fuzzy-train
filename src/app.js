@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './app.css';
 import FilterBlock from 'components/filterblock';
 import RatingFilterBlock from 'components/ratingfilterblock';
-import Hit from 'components/hit';
+import Restaurant from 'components/restaurant';
 import algoliasearch from 'algoliasearch';
 import algoliasearchHelper from 'algoliasearch-helper';
 import type { Response } from 'types';
@@ -92,7 +92,7 @@ class App extends Component<Props, State> {
           </h1>
           <div className="Results__List">
             {searchResults.hits.map(hit => (
-              <Hit hit={hit} key={hit.objectID} />
+              <Restaurant hit={hit} key={hit.objectID} />
             ))}
           </div>
           <div className="Results__Footer">

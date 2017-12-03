@@ -63,6 +63,48 @@ $content-top-indent: 24px;
   box-sizing: border-box;
 }
 
+.Results {
+  padding: $content-top-indent 36px;
+  box-sizing: border-box;
+  min-height: 100%;
+  flex: 1;
+
+  &__ProcessingTime {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &__Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+  }
+}
+
+.SectionTitle {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ShowMoreButton {
+  height: 40px;
+  background: none;
+  border: solid 1px $border-color;
+  padding: 0 16px;
+  font-weight: 400;
+  min-width: 180px;
+  cursor: pointer;
+  color: $text-color-button;
+
+  &:hover {
+    border: solid 1px $text-color-primary;
+    color: $text-color-primary;
+  }
+}
+
 .FilterBlock {
   margin-bottom: 32px;
 }
@@ -101,101 +143,5 @@ $content-top-indent: 24px;
 
   &__ValueCount {
     color: $text-color-secondary;
-  }
-}
-
-.Results {
-  padding: $content-top-indent 36px;
-  box-sizing: border-box;
-  min-height: 100%;
-  flex: 1;
-
-  &__ProcessingTime {
-    font-size: 12px;
-    font-weight: 400;
-  }
-
-  &__Footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 24px 0;
-  }
-}
-
-.Restaurant {
-  $restaurant-info-vertical-margin: 4px;
-
-  padding: 8px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-
-  &:hover {
-    background-color: $hover-highlight-color;
-  }
-
-  &__Image {
-    height: 80px;
-    width: 80px;
-    border-radius: 4px;
-    border: solid 1px $border-color;
-    cursor: pointer;
-  }
-
-  &__Name {
-    cursor: pointer;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  &__Info {
-    margin-left: 12px;
-    font-size: 13px;
-  }
-
-  &__Rating {
-    margin: $restaurant-info-vertical-margin 0;
-    &__StarCount {
-      color: $yellow;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    &__ReviewCount {
-      margin-left: 12px;
-      color: $text-color-secondary;
-    }
-  }
-
-  &__Details {
-    margin: $restaurant-info-vertical-margin 0;
-    color: $text-color-secondary;
-  }
-}
-
-.SectionTitle {
-  margin: 0 0 16px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.ShowMoreButton {
-  height: 40px;
-  background: none;
-  border: solid 1px $border-color;
-  padding: 0 16px;
-  font-weight: 400;
-  min-width: 180px;
-  cursor: pointer;
-  color: $text-color-button;
-
-  &:hover {
-    border: solid 1px $text-color-primary;
-    color: $text-color-primary;
   }
 }

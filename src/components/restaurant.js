@@ -1,13 +1,14 @@
 // @flow
 
 import React, { Component } from 'react';
-import type { Hit as HitType } from 'types';
+import type { Hit } from 'types';
+import './restaurant.css';
 
 type Props = {
-  hit: HitType,
+  hit: Hit,
 };
 
-class Hit extends Component<Props> {
+class Restaurant extends Component<Props> {
   render() {
     const hit = this.props.hit;
     return (
@@ -32,4 +33,4 @@ class Hit extends Component<Props> {
   }
 }
 
-export default Hit;
+export default Restaurant;
