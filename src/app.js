@@ -216,6 +216,7 @@ class App extends Component<Props, State> {
               placeholder="Search for Restaurants by Name, Cuisine, Location"
               value={inputValue}
               onChange={this.handleSearchInputChange}
+              onFocus={e => e.target.select()}
             />
           </header>
           <div className="Content">
