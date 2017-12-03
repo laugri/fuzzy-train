@@ -63,11 +63,11 @@ $content-top-indent: 24px;
 
 .FilterGroup {
   margin-bottom: 32px;
-  max-height: 250px;
-  overflow-y: auto;
 }
 
 .FacetValues {
+  max-height: 220px;
+  overflow-y: auto;
   &__Value {
     margin: 2px 0;
     font-size: 13px;
