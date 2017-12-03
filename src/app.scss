@@ -113,8 +113,8 @@ $mobile-breakpoint: 830px;
   color: $text-color-button;
 
   &:hover {
-    border: solid 1px $text-color-primary;
-    color: $text-color-primary;
+    border: solid 1px $primary-color-light;
+    color: $primary-color-light;
   }
 }
 
