@@ -12,7 +12,7 @@ const indexName = 'restaurants';
 const baseHitsPerPage = 5;
 const client = algoliasearch(applicationID, apiKey);
 const config = {
-  facets: ['food_type', 'payment_options'],
+  facets: ['food_type', 'payment_options', 'dining_style', 'city'],
   hitsPerPage: baseHitsPerPage,
 };
 const helper = algoliasearchHelper(client, indexName, config);
@@ -77,9 +77,11 @@ class App extends Component<Props, State> {
     helper.search();
   };
 
-  handleFoodTypeFacetClick = (e: SyntheticInputEvent<>) => {
-    const value = e.target.value;
-    helper.toggleFacetRefinement('food_type', value).search();
+  handleFacetClickFactory = (facet: string) => {
+    return (e: SyntheticInputEvent<>) => {
+      const value = e.target.value;
+      helper.toggleFacetRefinement(facet, value).search();
+    };
   };
 
   handlePaymentOptionsFacetClick = (e: SyntheticInputEvent<>) => {
@@ -129,11 +131,7 @@ class App extends Component<Props, State> {
     }
   }
 
-  renderFilters(
-    facet: string,
-    groupName: string,
-    handleChangeFunction: Function
-  ) {
+  renderFilters(facet: string, groupName: string) {
     const { searchResults } = this.state;
     if (searchResults) {
       const facetValues = searchResults.getFacetValues(facet, {
@@ -155,7 +153,7 @@ class App extends Component<Props, State> {
                   <label>
                     <input
                       type="checkbox"
-                      onChange={handleChangeFunction}
+                      onChange={this.handleFacetClickFactory(facet)}
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
@@ -175,22 +173,6 @@ class App extends Component<Props, State> {
     } else {
       return null;
     }
-  }
-
-  renderCuisineFilters() {
-    return this.renderFilters(
-      'food_type',
-      'Cuisine/Food Type',
-      this.handleFoodTypeFacetClick
-    );
-  }
-
-  renderPaymentOptionsFilters() {
-    return this.renderFilters(
-      'payment_options',
-      'Payment Options',
-      this.handlePaymentOptionsFacetClick
-    );
   }
 
   renderHit(hit: Hit) {
@@ -271,9 +253,11 @@ class App extends Component<Props, State> {
           </header>
           <div className="Content">
             <section className="FilterBar">
-              {this.renderCuisineFilters()}
+              {this.renderFilters('food_type', 'Cuisine/Food Type')}
               {this.renderRatingFilters()}
-              {this.renderPaymentOptionsFilters()}
+              {this.renderFilters('payment_options', 'Payment Options')}
+              {this.renderFilters('dining_style', 'Dining Style')}
+              {this.renderFilters('city', 'City')}
             </section>
             {this.renderResults()}
           </div>
