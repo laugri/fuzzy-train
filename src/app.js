@@ -9,7 +9,7 @@ import type { Hit, Response, FacetValue } from 'types';
 const applicationID = 'AA6Z3N1QN6';
 const apiKey = '606fb361d72620af82ded9d61fd5ce9b';
 const indexName = 'restaurants';
-const baseHitsPerPage = 5;
+const baseHitsPerPage = 3;
 const client = algoliasearch(applicationID, apiKey);
 const config = {
   facets: ['food_type', 'payment_options', 'dining_style', 'city'],
@@ -238,7 +238,7 @@ class App extends Component<Props, State> {
     const { inputValue } = this.state;
     return (
       <div className="App">
-        <div className="Container">
+        <div className="Card">
           <header className="SearchBar">
             <input
               className="SearchBar__Input"
@@ -251,15 +251,17 @@ class App extends Component<Props, State> {
               onFocus={e => e.target.select()}
             />
           </header>
-          <div className="Content">
-            <section className="FilterBar">
-              {this.renderFilters('food_type', 'Cuisine/Food Type')}
-              {this.renderRatingFilters()}
-              {this.renderFilters('payment_options', 'Payment Options')}
-              {this.renderFilters('dining_style', 'Dining Style')}
-              {this.renderFilters('city', 'City')}
-            </section>
-            {this.renderResults()}
+          <div className="Container">
+            <div className="Content">
+              <section className="FilterBar">
+                {this.renderFilters('food_type', 'Cuisine/Food Type')}
+                {this.renderRatingFilters()}
+                {this.renderFilters('payment_options', 'Payment Options')}
+                {this.renderFilters('dining_style', 'Dining Style')}
+                {this.renderFilters('city', 'City')}
+              </section>
+              {this.renderResults()}
+            </div>
           </div>
         </div>
       </div>
