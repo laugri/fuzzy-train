@@ -59,24 +59,38 @@ class App extends Component<Props, State> {
     helper.setQuery(value).search();
   };
 
-  renderCuisineFilter() {
+  renderRatingFilters() {
+    const { searchResults } = this.state;
+    if (searchResults) {
+      return (
+        <section className="FilterGroup">
+          <h2 className="SectionTitle">Rating</h2>
+          <div />
+        </section>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderCuisineFilters() {
     const { searchResults } = this.state;
     if (searchResults) {
       const facetValues = searchResults.getFacetValues('food_type', {
         sortBy: ['count:desc', 'name:asc'],
       });
       return (
-        <section>
+        <section className="FilterGroup">
           <h2 className="SectionTitle">Cuisine/Food type</h2>
-          <div className="FilterBar__FacetValues">
+          <div className="FacetValues">
             {facetValues.map((facetValue: FacetValue) => {
               const isRefinedModifier = facetValue.isRefined
-                ? 'FilterBar__Value--selected'
+                ? 'FacetValues__Value--selected'
                 : '';
               return (
                 <div
                   key={facetValue.name}
-                  className={`FilterBar__Value ${isRefinedModifier}`}
+                  className={`FacetValues__Value ${isRefinedModifier}`}
                 >
                   <label>
                     <input
@@ -85,10 +99,10 @@ class App extends Component<Props, State> {
                       value={facetValue.name}
                       checked={facetValue.isRefined}
                     />
-                    <span className="FilterBar__ValueName">
+                    <span className="FacetValues__ValueName">
                       {facetValue.name}
                     </span>
-                    <span className="FilterBar__ValueCount">
+                    <span className="FacetValues__ValueCount">
                       {facetValue.count}
                     </span>
                   </label>
@@ -169,7 +183,8 @@ class App extends Component<Props, State> {
           </header>
           <div className="Content">
             <section className="FilterBar">
-              {this.renderCuisineFilter()}
+              {this.renderCuisineFilters()}
+              {this.renderRatingFilters()}
             </section>
             {this.renderResults()}
           </div>

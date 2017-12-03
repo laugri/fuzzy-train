@@ -55,11 +55,19 @@ $content-top-indent: 24px;
 }
 
 .FilterBar {
-  padding: $content-top-indent $left-indent;
+  padding: $content-top-indent 12px $content-top-indent $left-indent;
   width: 200px;
   min-height: 100%;
   box-sizing: border-box;
+}
 
+.FilterGroup {
+  margin-bottom: 24px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.FacetValues {
   &__Value {
     margin: 2px 0;
     font-size: 13px;
@@ -166,4 +174,3 @@ $content-top-indent: 24px;
   font-size: 14px;
   font-weight: 600;
 }
-
