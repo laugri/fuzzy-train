@@ -12,7 +12,8 @@ const indexName = 'restaurants';
 const baseHitsPerPage = 3;
 const client = algoliasearch(applicationID, apiKey);
 const config = {
-  facets: ['food_type', 'payment_options', 'dining_style', 'city'],
+  disjunctiveFacets: ['food_type'],
+  facets: ['payment_options', 'dining_style', 'city'],
   hitsPerPage: baseHitsPerPage,
 };
 const helper = algoliasearchHelper(client, indexName, config);
@@ -51,6 +52,7 @@ class App extends Component<Props, State> {
         }
       );
     }
+    helper.search();
   }
 
   isRatingFilterActive(value: number) {
@@ -77,16 +79,22 @@ class App extends Component<Props, State> {
     helper.search();
   };
 
-  handleFacetClickFactory = (facet: string) => {
-    return (e: SyntheticInputEvent<>) => {
-      const value = e.target.value;
-      helper.toggleFacetRefinement(facet, value).search();
-    };
-  };
-
-  handlePaymentOptionsFacetClick = (e: SyntheticInputEvent<>) => {
+  handleFacetClick = (
+    e: SyntheticInputEvent<>,
+    facet: string,
+    isRefined: boolean,
+    isDisjunctive: boolean = false
+  ) => {
     const value = e.target.value;
-    helper.toggleFacetRefinement('payment_options', value).search();
+    if (isDisjunctive) {
+      if (isRefined) {
+        helper.removeDisjunctiveFacetRefinement('food_type', value).search();
+      } else {
+        helper.addDisjunctiveFacetRefinement('food_type', value).search();
+      }
+    } else {
+      helper.toggleFacetRefinement(facet, value).search();
+    }
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
@@ -131,7 +139,11 @@ class App extends Component<Props, State> {
     }
   }
 
-  renderFilters(facet: string, groupName: string) {
+  renderFilters(
+    facet: string,
+    groupName: string,
+    isDisjunctive: boolean = false
+  ) {
     const { searchResults } = this.state;
     if (searchResults) {
       const facetValues = searchResults.getFacetValues(facet, {
@@ -142,7 +154,8 @@ class App extends Component<Props, State> {
           <h2 className="SectionTitle">{groupName}</h2>
           <div className="FacetValues">
             {facetValues.map((facetValue: FacetValue) => {
-              const isRefinedModifier = facetValue.isRefined
+              const isRefined = facetValue.isRefined;
+              const isRefinedModifier = isRefined
                 ? 'FacetValues__Value--selected'
                 : '';
               return (
@@ -153,9 +166,16 @@ class App extends Component<Props, State> {
                   <label>
                     <input
                       type="checkbox"
-                      onChange={this.handleFacetClickFactory(facet)}
+                      onChange={(e: SyntheticInputEvent<>) =>
+                        this.handleFacetClick(
+                          e,
+                          facet,
+                          isRefined,
+                          isDisjunctive
+                        )
+                      }
                       value={facetValue.name}
-                      checked={facetValue.isRefined}
+                      checked={isRefined}
                     />
                     <span className="FacetValues__ValueName">
                       {facetValue.name}
@@ -254,7 +274,7 @@ class App extends Component<Props, State> {
           <div className="Container">
             <div className="Content">
               <section className="FilterBar">
-                {this.renderFilters('food_type', 'Cuisine/Food Type')}
+                {this.renderFilters('food_type', 'Cuisine/Food Type', true)}
                 {this.renderRatingFilters()}
                 {this.renderFilters('payment_options', 'Payment Options')}
                 {this.renderFilters('dining_style', 'Dining Style')}
