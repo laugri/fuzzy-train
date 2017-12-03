@@ -216,8 +216,9 @@ class App extends Component<Props, State> {
   }
 
   renderResults() {
-    const { searchResults } = this.state;
+    const { searchResults, hitsPerPage } = this.state;
     if (searchResults) {
+      const showButton = hitsPerPage < searchResults.nbHits;
       return (
         <section className="Results">
           <h1 className="SectionTitle">
@@ -231,12 +232,14 @@ class App extends Component<Props, State> {
             {searchResults.hits.map(hit => this.renderHit(hit))}
           </div>
           <div className="Results__Footer">
-            <button
-              onClick={this.handleShowMoreButtonClick}
-              className="ShowMoreButton"
-            >
-              Show more
-            </button>
+            {showButton && (
+              <button
+                onClick={this.handleShowMoreButtonClick}
+                className="ShowMoreButton"
+              >
+                Show more
+              </button>
+            )}
           </div>
         </section>
       );
