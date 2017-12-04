@@ -33,7 +33,7 @@ class Stars extends Component<Props> {
         list.push(this.renderStar(i, false));
       }
     }
-    return <div className="Stars">{list}</div>;
+    return <span className="Stars">{list}</span>;
   }
 }
 
