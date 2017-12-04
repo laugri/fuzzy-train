@@ -10,6 +10,7 @@ import './filterbar.css';
 type Props = {
   searchResults: ?Response,
   algoliaSearchHelper: helper,
+  classNames: string,
 };
 
 class FilterBar extends Component<Props> {
