@@ -48,17 +48,35 @@ function buildEnrichedRestaurantList(restaurantsList, restaurantsInfo) {
   console.log(' - Merging metadata');
   return restaurantsList.map(restaurant => {
     const infos = findInfo(restaurantsInfo, restaurant);
-    return { ...restaurant, ...typeInfoProperly(infos) };
+    return {
+      ...restaurant,
+      payment_options: cleanUpPaymentOptions(restaurant.payment_options),
+      ...cleanUpInfos(infos),
+    };
   });
 }
 
-function typeInfoProperly(info) {
+function cleanUpInfos(info) {
   return {
     ...info,
     objectID: parseInt(info.objectID, 10),
     stars_count: parseFloat(info.stars_count, 10),
     reviews_count: parseInt(info.reviews_count, 10),
   };
+}
+
+function convertUnwantedOption(option) {
+  if (option === 'Diners Club' || option === 'Carte Blanche') {
+    return 'Discover';
+  } else {
+    return option;
+  }
+}
+
+function cleanUpPaymentOptions(payment_options) {
+  return Array.from(
+    payment_options.map(option => convertUnwantedOption(option))
+  ).filter((elem, index, self) => index === self.indexOf(elem));
 }
 
 function findInfo(restaurantsInfo, restaurant) {
