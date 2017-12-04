@@ -1,0 +1,21 @@
+@import 'style/_colors.scss';
+@import 'style/_layout.scss';
+
+.FilterBar {
+  padding: $content-top-indent 12px $content-top-indent $left-indent;
+  width: 200px;
+  min-height: 100%;
+  border-right: solid 1px $border-color;
+  box-sizing: border-box;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    display: none;
+  }
+
+  &--mobile {
+    position: absolute;
+    display: block;
+    background-color: white;
+    width: 100%;
+  }
+}

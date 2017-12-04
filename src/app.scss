@@ -1,8 +1,5 @@
 @import 'style/_colors.scss';
-
-$left-indent: 24px;
-$content-top-indent: 24px;
-$mobile-breakpoint: 830px;
+@import 'style/_layout.scss';
 
 .App {
   width: 100%;
@@ -64,18 +61,6 @@ $mobile-breakpoint: 830px;
   min-height: 100%;
 }
 
-.FilterBar {
-  padding: $content-top-indent 12px $content-top-indent $left-indent;
-  width: 200px;
-  min-height: 100%;
-  border-right: solid 1px $border-color;
-  box-sizing: border-box;
-
-  @media screen and (max-width: $mobile-breakpoint) {
-    display: none;
-  }
-}
-
 .Results {
   padding: $content-top-indent 36px;
   box-sizing: border-box;
@@ -120,4 +105,18 @@ $mobile-breakpoint: 830px;
 
 .FilterBlock {
   margin-bottom: 32px;
+}
+
+.MobileFilterToggle {
+  color: white;
+  text-align: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  cursor: pointer;
+
+  @media screen and (min-width: $mobile-breakpoint) {
+    display: none;
+  }
 }

@@ -2,8 +2,7 @@
 
 import React, { Component } from 'react';
 import './app.css';
-import FilterBlock from 'components/filterblock';
-import RatingFilterBlock from 'components/ratingfilterblock';
+import FilterBar from 'components/filterbar';
 import Restaurant from 'components/restaurant';
 import algoliasearch from 'algoliasearch';
 import algoliasearchHelper from 'algoliasearch-helper';
@@ -26,6 +25,7 @@ type State = {
   inputValue: string,
   searchResults: ?Response,
   hitsPerPage: number,
+  isFilterBarMobileLayoutOn: boolean,
 };
 
 class App extends Component<Props, State> {
@@ -35,6 +35,7 @@ class App extends Component<Props, State> {
       inputValue: '',
       searchResults: undefined,
       hitsPerPage: baseHitsPerPage,
+      isFilterBarMobileLayoutOn: false,
     };
 
     helper.on('result', (content: Response) => {
@@ -117,7 +118,7 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { inputValue, searchResults } = this.state;
+    const { inputValue, searchResults, isFilterBarMobileLayoutOn } = this.state;
     return (
       <div className="App">
         <div className="Card">
@@ -132,43 +133,27 @@ class App extends Component<Props, State> {
               onChange={this.handleSearchInputChange}
               onFocus={e => e.target.select()}
             />
+            <button
+              className="MobileFilterToggle"
+              onClick={() => {
+                this.setState({
+                  isFilterBarMobileLayoutOn: !this.state
+                    .isFilterBarMobileLayoutOn,
+                });
+              }}
+            >
+              Toggle filters
+            </button>
           </header>
           <div className="Container">
             <div className="Content">
-              <section className="FilterBar">
-                <FilterBlock
-                  searchResults={searchResults}
-                  algoliaSearchHelper={helper}
-                  facet="food_type"
-                  blockName="Cuisine/Food Type"
-                  isDisjunctive={true}
-                />
-                <RatingFilterBlock
-                  searchResults={searchResults}
-                  algoliaSearchHelper={helper}
-                />
-                <FilterBlock
-                  searchResults={searchResults}
-                  algoliaSearchHelper={helper}
-                  facet="payment_options"
-                  blockName="Payment Options"
-                  isDisjunctive={true}
-                />
-                <FilterBlock
-                  searchResults={searchResults}
-                  algoliaSearchHelper={helper}
-                  facet="dining_style"
-                  blockName="Dining Style"
-                  isDisjunctive={true}
-                />
-                <FilterBlock
-                  searchResults={searchResults}
-                  algoliaSearchHelper={helper}
-                  facet="city"
-                  blockName="City"
-                  isDisjunctive={true}
-                />
-              </section>
+              <FilterBar
+                searchResults={searchResults}
+                algoliaSearchHelper={helper}
+                classNames={
+                  isFilterBarMobileLayoutOn ? 'FilterBar--mobile' : ''
+                }
+              />
               {this.renderResults()}
             </div>
           </div>
