@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import type { Response, FacetValue } from 'types';
 import { helper } from 'app';
+import './filterblock.css';
 
 type Props = {
   searchResults: ?Response,

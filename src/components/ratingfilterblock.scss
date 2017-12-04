@@ -1,0 +1,17 @@
+.RatingValueCheckbox {
+  cursor: pointer;
+  margin: 4px 0;
+  opacity: 0.4;
+  label {
+    cursor: pointer;
+  }
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  &:hover,
+  &--selected {
+    opacity: 1;
+  }
+}

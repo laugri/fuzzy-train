@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import Stars from 'components/stars';
 import type { Hit } from 'types';
 import './restaurant.css';
 
@@ -19,7 +20,8 @@ class Restaurant extends Component<Props> {
           <p className="Restaurant__Rating">
             <span className="Restaurant__Rating__StarCount">
               {hit.stars_count}
-            </span>{' '}
+            </span>
+            <Stars rating={Math.round(hit.stars_count)} />
             <span className="Restaurant__Rating__ReviewCount">
               ({hit.reviews_count} reviews)
             </span>

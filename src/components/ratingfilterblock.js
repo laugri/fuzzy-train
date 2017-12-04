@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import type { Response } from 'types';
 import { helper } from 'app';
+import './ratingfilterblock.css';
+import Stars from 'components/stars';
 
 type Props = {
   searchResults: ?Response,
@@ -33,8 +35,9 @@ class RatingFilterBlock extends Component<Props> {
 
   renderRatingValueCheckbox(value: number) {
     const checked = this.isRatingFilterActive(value);
+    const isCheckedModifier = checked ? 'RatingValueCheckbox--selected' : '';
     return (
-      <div>
+      <div className={`RatingValueCheckbox ${isCheckedModifier}`}>
         <label>
           <input
             type="checkbox"
@@ -42,7 +45,7 @@ class RatingFilterBlock extends Component<Props> {
             onChange={this.handleRatingFilterClick}
             checked={checked}
           />
-          {value}+
+          <Stars rating={value} />
         </label>
       </div>
     );
