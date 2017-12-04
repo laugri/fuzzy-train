@@ -11,7 +11,7 @@ import type { Response } from 'types';
 
 const applicationID = 'AA6Z3N1QN6';
 const apiKey = '606fb361d72620af82ded9d61fd5ce9b';
-const indexName = 'restaurants';
+const indexName = 'restaurants_custom_payment';
 const baseHitsPerPage = 3;
 const client = algoliasearch(applicationID, apiKey);
 const config = {
